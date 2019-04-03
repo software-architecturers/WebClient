@@ -6,9 +6,13 @@ import { EventComponent } from './event/event.component';
 import { EventCreateComponent } from './event-create/event-create.component';
 
 import { EventsRoutingModule } from './events-routing.module';
+import { NgxsModule } from '@ngxs/store';
+import { EventState } from './store/event.state';
+
 
 @NgModule({
   imports: [
+    NgxsModule.forRoot([EventState]),
     EventsRoutingModule
   ],
   declarations: [
