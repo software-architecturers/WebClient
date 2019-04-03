@@ -7,6 +7,9 @@ import { AppComponent } from './app.component';
 import { EventsModule } from './events/events.module';
 import { HomePageComponent } from './home/home-page.component';
 
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,6 +17,8 @@ import { HomePageComponent } from './home/home-page.component';
   ],
   imports: [
     BrowserModule,
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot(),
     AppRoutingModule,
     EventsModule
   ],
