@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { EventsModule } from './events/events.module';
-import { HomePageComponent} from './home/home-page.component';
+import { HomePageComponent } from './home/home-page.component';
 
 @NgModule({
   declarations: [

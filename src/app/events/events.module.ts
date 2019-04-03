@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
 import { EventsPageComponent } from './events-page.component';
-import { EventPreviewComponent} from './event-preview/event-preview.component';
-import { EventComponent} from './event/event.component';
+import { EventPreviewComponent } from './event-preview/event-preview.component';
+import { EventComponent } from './event/event.component';
 import { EventCreateComponent } from './event-create/event-create.component';
 
-import { EventsRoutingModule} from './events-routing.module';
+import { EventsRoutingModule } from './events-routing.module';
 
 @NgModule({
   imports: [
@@ -18,4 +18,4 @@ import { EventsRoutingModule} from './events-routing.module';
     EventCreateComponent
   ]
 })
-export class EventsModule {}
+export class EventsModule { }
