@@ -20,7 +20,6 @@ import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     AppRoutingModule,
-    EventsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
