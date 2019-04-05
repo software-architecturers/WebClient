@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private auth: AuthService) { }
 
 
   get isDev() {
@@ -25,8 +26,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  // TODO: login the user
   onSubmit() {
-
+    const email = this.loginForm.get('email').value;
+    const password = this.loginForm.get('password').value;
+    this.auth.login(email, password);
   }
 }
