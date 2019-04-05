@@ -7,8 +7,8 @@ import { EventsPageComponent } from './events-page.component';
 
 const eventsRoutes: Routes = [
   { path: '', component: EventsPageComponent },
-  { path: 'event', component: EventComponent },
-  { path: 'new', component: EventCreateComponent },
+  { path: 'create', component: EventCreateComponent },
+  { path: ':id', component: EventComponent },
 ];
 
 @NgModule({

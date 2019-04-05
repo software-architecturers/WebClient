@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import EventModel from '../event.model';
 
 @Component({
   selector: 'app-event-preview',
@@ -6,4 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./event-preview.component.scss']
 })
 export class EventPreviewComponent {
+  @Input() eventData: EventModel;
 }

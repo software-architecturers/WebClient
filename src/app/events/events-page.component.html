@@ -1,7 +1,10 @@
 <h2>It's events page component</h2>
 
-<app-event-preview></app-event-preview>
-<a routerLink="event" routerLinkActive="active">Show event</a>
+<a routerLink="create" routerLinkActive="active">Create event</a>
 
-<app-event-preview></app-event-preview>
-<a routerLink="event" routerLinkActive="active">Show event</a>
+<ul>
+  <li *ngFor="let event of events">
+    <app-event-preview [eventData]="event"></app-event-preview>
+    <a routerLink="{{event.id}}" routerLinkActive="active">Show event</a>
+  </li>
+</ul>

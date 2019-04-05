@@ -9,11 +9,16 @@ import { EventsRoutingModule } from './events-routing.module';
 import { NgxsModule } from '@ngxs/store';
 import { EventState } from './store/event.state';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 
 @NgModule({
   imports: [
+    CommonModule,
     NgxsModule.forFeature([EventState]),
-    EventsRoutingModule
+    EventsRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [
     EventsPageComponent,
