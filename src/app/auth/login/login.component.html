@@ -1,3 +1,16 @@
-<p>
-  login works!
-</p>
+<form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
+    <label>
+      Email:
+      <input type="email" formControlName="email">
+    </label>
+    <label>
+      Password:
+      <input type="password" formControlName="password">
+    </label>
+    <button type="submit" [disabled]="!loginForm.valid">Login</button>
+  </form>
+
+  <div *ngIf="isDev">
+    <p>{{loginForm.status}}</p>
+    <p>{{loginForm.value | json}}</p>
+  </div>
