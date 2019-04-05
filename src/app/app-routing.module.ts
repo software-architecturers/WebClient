@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { EventsPageComponent } from './events/events-page.component';
 import { HomePageComponent } from './home/home-page.component';
-import { DeclarativePreloadingStrategyService } from './selective-preloading-strategy.service';
+import { DeclarativePreloadingStrategyService } from './declarative-preloading-strategy.service';
 
 const routes: Routes = [
   {
@@ -14,6 +13,8 @@ const routes: Routes = [
     }
   },
   { path: 'home', component: HomePageComponent },
+  { path: 'login', loadChildren: './auth/login/login.module#LoginModule'},
+  { path: 'register', loadChildren: './auth/register/register.module#RegisterModule'},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 
