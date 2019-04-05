@@ -8,6 +8,22 @@
     <li>
       <a routerLink="/events">Events</a>
     </li>
+    <ng-container *ngIf="!(isLoggedIn$ | async)">
+      <li>
+        <a routerLink="/login">Login</a>
+      </li>
+      <li *ngIf="!(isLoggedIn$ | async)">
+        <a routerLink="/register">Register</a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="isLoggedIn$ | async">
+      <li>
+        <a [routerLink]="['/u', (auth.getUserInfo() | async).username | encodeURI]">Me</a>
+      </li>
+      <li>
+        <button (click)="logout()">Logout</button>
+      </li>
+    </ng-container>
   </ul>
 </nav>
 
