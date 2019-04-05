@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,17 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     this.subject.next(false);
+  }
+
+  getUserInfo() {
+    return this.subject.pipe(map(v => {
+      if (v) {
+        return {
+          username: 'Test User',
+          email: AuthService.TEST_EMAIL
+        };
+      } else { return null; }
+    }));
   }
 
   isLoggedIn(): Observable<boolean> {

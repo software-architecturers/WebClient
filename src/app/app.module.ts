@@ -11,11 +11,15 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
+import { EncodeURIPipe } from './encode-uri.pipe';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent
+    HomePageComponent,
+    EncodeURIPipe,
+    UserComponent
   ],
   imports: [
     BrowserModule,

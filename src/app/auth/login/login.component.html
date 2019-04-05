@@ -8,9 +8,12 @@
       <input type="password" formControlName="password">
     </label>
     <button type="submit" [disabled]="!loginForm.valid">Login</button>
+    <button (click)="fakeLogin()">Fake login</button>
   </form>
 
+
   <div *ngIf="isDev">
+
     <p>{{loginForm.status}}</p>
     <p>{{loginForm.value | json}}</p>
   </div>

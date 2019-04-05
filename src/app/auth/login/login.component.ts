@@ -34,4 +34,9 @@ export class LoginComponent implements OnInit {
     this.auth.login(email, password);
     this.store.dispatch(new Navigate(['/home']));
   }
+
+  fakeLogin() {
+    this.auth.login(AuthService.TEST_EMAIL, AuthService.TEST_PASSWORD);
+    this.store.dispatch(new Navigate(['/home']));
+  }
 }

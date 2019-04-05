@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomePageComponent } from './home/home-page.component';
 import { DeclarativePreloadingStrategyService } from './declarative-preloading-strategy.service';
 import { NotAuthGuard } from './auth/not-auth.guard';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
     }
   },
   { path: 'home', component: HomePageComponent },
+  { path: 'u/:id', component: UserComponent },
   {
     path: 'login',
     loadChildren: './auth/login/login.module#LoginModule',
