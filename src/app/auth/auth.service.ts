@@ -10,7 +10,7 @@ export class AuthService {
 
   private subject = new BehaviorSubject<boolean>(!!localStorage.getItem('token'));
 
-  constructor() {}
+  constructor() { }
 
 
   login(email: string, password: string) {

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomePageComponent } from './home/home-page.component';
 import { DeclarativePreloadingStrategyService } from './declarative-preloading-strategy.service';
+import { NotAuthGuard } from './auth/not-auth.guard';
 
 const routes: Routes = [
   {
@@ -13,8 +14,16 @@ const routes: Routes = [
     }
   },
   { path: 'home', component: HomePageComponent },
-  { path: 'login', loadChildren: './auth/login/login.module#LoginModule'},
-  { path: 'register', loadChildren: './auth/register/register.module#RegisterModule'},
+  {
+    path: 'login',
+    loadChildren: './auth/login/login.module#LoginModule',
+    canLoad: [NotAuthGuard]
+  },
+  {
+    path: 'register',
+    loadChildren: './auth/register/register.module#RegisterModule',
+    canLoad: [NotAuthGuard]
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

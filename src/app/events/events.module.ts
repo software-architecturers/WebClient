@@ -12,7 +12,7 @@ import { EventState } from './store/event.state';
 
 @NgModule({
   imports: [
-    NgxsModule.forRoot([EventState]),
+    NgxsModule.forFeature([EventState]),
     EventsRoutingModule
   ],
   declarations: [
