@@ -1,3 +1,26 @@
-<p>
-  register works!
-</p>
+<form [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit()">
+  <label>
+    Username:
+    <input type="text" formControlName="name">
+  </label>
+  <label>
+    Email:
+    <input type="email" formControlName="email">
+  </label>
+  <label>
+    Password:
+    <input type="password" formControlName="password">
+  </label>
+  <label>
+    Confirm password:
+    <input type="password"
+    formControlName="confirmPassword">
+  </label>
+  <button type="submit" [disabled]="!registerForm.valid">Register</button>
+</form>
+
+<div *ngIf="isDev">
+  <p>{{registerForm.status}}</p>
+  <p>{{registerForm.value | json}}</p>
+  <p>{{registerForm.errors | json}}</p>
+</div>
