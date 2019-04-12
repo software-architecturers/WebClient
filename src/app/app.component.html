@@ -1,36 +1,60 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-<nav>
-  <ul>
-    <li>
-      <a routerLink="/home">Home</a>
-    </li>
-    <li>
-      <a routerLink="/events">Events</a>
-    </li>
-    <ng-container *ngIf="!(isLoggedIn$ | async)">
-      <li>
-        <a routerLink="/login">Login</a>
-      </li>
-      <li *ngIf="!(isLoggedIn$ | async)">
-        <a routerLink="/register">Register</a>
-      </li>
-    </ng-container>
-    <ng-container *ngIf="isLoggedIn$ | async">
-      <li>
-        <a [routerLink]="['/u', (auth.getUserInfo() | async).username | encodeURI]">Me</a>
-      </li>
-      <li>
-        <button (click)="logout()">Logout</button>
-      </li>
-    </ng-container>
-  </ul>
+<nav class="navbar is-primary" role="navigation" aria-label="navigation">
+  <div class="navbar-brand">
+    <!-- navbar items, navbar burger... -->
+    <a (click)="navbarBurgerActive = !navbarBurgerActive" role="button" class="navbar-burger"
+      [class.is-active]="navbarBurgerActive" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu" [class.is-active]="navbarBurgerActive">
+    <div class="navbar-start">
+      <a class="navbar-item " routerLink="/home">Home</a>
+      <a class="navbar-item" routerLink="/events">Events</a>
+    </div>
+    <div class="navbar-end">
+      <ng-container *ngIf="!(isLoggedIn$ | async); else elseBlock">
+        <div class="navbar-item buttons">
+          <a class="is-primary button" routerLink="/login">Login</a>
+          <a class="is-light button" routerLink="/register">Register</a>
+        </div>
+      </ng-container>
+      <ng-template #elseBlock>
+        <a class="navbar-item" [routerLink]="['/u', (auth.getUserInfo() | async).username | encodeURI]">Me</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+
+          <a class="navbar-link is-hidden-touch"></a>
+          <a (click)="extraMobileVisible = !extraMobileVisible" class="navbar-link is-hidden-desktop">Extra</a>
+          <div class="navbar-dropdown is-right" [class.is-hidden-touch]="!extraMobileVisible">
+            <a class="navbar-item" (click)="logoutModalActive = true" >Logout</a>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
 </nav>
-
-<div style="text-align:center">
-  <h1>
-    Heyya! It's an spa
-  </h1>
+<div class="container">
+  <router-outlet></router-outlet>
 </div>
-
-<router-outlet></router-outlet>
+<div class="modal" [class.is-active]="logoutModalActive">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      Are you sure?
+      <div class="level">
+        <div class="level-left"></div>
+        <div class="level-right">
+          <div class="level-item">
+            <a (click)="logout()" class="button is-danger">Logout</a>
+          </div>
+          <div class="level-item">
+            <a class="button is-light" (click)="logoutModalActive = false">Stay</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
