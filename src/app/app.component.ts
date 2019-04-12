@@ -8,12 +8,20 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent {
 
+
+  navbarBurgerActive = false;
+
+  extraMobileVisible = false;
+
+  logoutModalActive = false;
+
   isLoggedIn$ = this.auth.isLoggedIn();
 
   constructor(public auth: AuthService) { }
 
 
   logout() {
+    this.logoutModalActive = false;
     this.auth.logout();
   }
 }

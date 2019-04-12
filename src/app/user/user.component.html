@@ -1,1 +1,16 @@
-<h2>Hello, {{(user$ | async).username}}</h2>
+<div class="columns">
+
+  <div class="column is-one-third ">
+    <div class="is-vertical-centre">
+      <h2 class="tile">{{ (user$ | async).username }}</h2>
+      <figure class="image is-256x256">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Mozilla_Firefox_3.5_logo_256.png">
+      </figure>
+    </div>
+  </div>
+  <div class="column">
+    Display user info
+
+    <button class="button is-fullwidth is-primary">View events</button>
+  </div>
+</div>
