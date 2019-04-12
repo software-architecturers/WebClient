@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { Store } from '@ngxs/store';
+import { AddEvent } from '../store/events.actions';
+
 
 @Component({
   selector: 'app-event-create',
@@ -15,9 +18,13 @@ export class EventCreateComponent {
   });
 
   constructor(
+    private store: Store,
     private fb: FormBuilder,
   ) {}
 
-  onSubmit() {}
+  onSubmit() {
+    const event = this.eventCreateForm.value;
+    this.store.dispatch(new AddEvent(event));
+  }
 
 }

@@ -7,7 +7,7 @@ import { EventCreateComponent } from './event-create/event-create.component';
 
 import { EventsRoutingModule } from './events-routing.module';
 import { NgxsModule } from '@ngxs/store';
-import { EventState } from './store/event.state';
+import { EventsState } from './store/events.state';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   imports: [
     CommonModule,
-    NgxsModule.forFeature([EventState]),
+    NgxsModule.forFeature([EventsState]),
     EventsRoutingModule,
     ReactiveFormsModule
   ],
