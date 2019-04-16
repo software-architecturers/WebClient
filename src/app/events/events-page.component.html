@@ -1,10 +1,25 @@
-<h2>It's events page component</h2>
 
-<a routerLink="create" routerLinkActive="active">Create event</a>
+<div class="columns events-page-top">
+  <div class="column is-half has-text-left">
+    <a class="button events-page-top__filters-button">Filters</a>
+    <a class="button events-page-top__sorting-button">Sorting</a>
+  </div>
+  <div class="column is-half has-text-right">
+    <a class="button is-primary events-page-top__create-button" routerLink="create" routerLinkActive="active">Create event</a>
+  </div>
+</div>
 
-<ul>
-  <li *ngFor="let event of events">
+<div class="columns events-page-info">
+  <div class="column">
+    <h2 class="events-page-info__title">Search results: </h2>
+    <p class="events-page-info__category">Category: All</p>
+    <p class="events-page-info__number">Total: 5</p>
+  </div>
+</div>
+
+<div class="columns is-multiline">
+  <div class="column is-one-third" *ngFor="let event of events">
     <app-event-preview [eventData]="event"></app-event-preview>
     <a routerLink="{{event.id}}" routerLinkActive="active">Show event</a>
-  </li>
-</ul>
+  </div>
+</div>

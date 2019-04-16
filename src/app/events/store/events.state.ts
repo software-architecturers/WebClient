@@ -41,13 +41,25 @@ export interface EventsStateModel {
         id: '1',
         title: 'event1',
         description: 'description1',
-        image: 'image1'
+        image: 'https://www.joomlack.fr/images/demos/demo2/on-top-of-earth.jpg'
       },
       {
         id: '2',
         title: 'event2',
         description: 'description2',
-        image: 'image2'
+        image: 'https://www.joomlack.fr/images/demos/demo2/on-top-of-earth.jpg'
+      },
+      {
+        id: '3',
+        title: 'event3',
+        description: 'description3',
+        image: 'https://www.joomlack.fr/images/demos/demo2/on-top-of-earth.jpg'
+      },
+      {
+        id: '4',
+        title: 'event4',
+        description: 'description4',
+        image: 'https://www.joomlack.fr/images/demos/demo2/on-top-of-earth.jpg'
       }
     ]
   }
