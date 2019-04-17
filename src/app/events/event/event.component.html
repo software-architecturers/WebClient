@@ -1,7 +1,22 @@
-<h3>It's main event component</h3>
-<h3>Id: {{event.id}}</h3>
-<h2>Title: {{event.title}}</h2>
-<h3>Description: {{event.description}}</h3>
-<img src="{{event.image}}" alt="">
-<button (click)="onClick()">Remove event</button>
+<div class="columns event">
+  <div class="column">
+    <img src="{{event.image}}" alt="">
+  </div>
+  <div class="column">
+    <h1 class="event__title">Title: {{event.title}}</h1>
+    <h2 class="event__description">Description: {{event.description}}</h2>
+    <button class="event__like button" [ngClass]="{'is-danger': isLiked}" (click)="onLikeClick()">
+      {{isLiked ? 'Unlike' : 'Like'}}
+    </button>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column">
+    <button class="event__remove button is-danger" (click)="onClick()">Remove event</button>
+  </div>
+</div>
+
+
+
 

@@ -1,18 +1,27 @@
 
-<div class="columns events-page-top">
-  <div class="column is-half has-text-left">
+<div class="columns events-page-top is-flex is-justified-between">
+
+  <div class="column is-flex">
     <a class="button events-page-top__filters-button">Filters</a>
-    <a class="button events-page-top__sorting-button">Sorting</a>
+    <div class="field has-addons events-page-top__search">
+      <div class="control">
+        <input class="input" type="text" placeholder="Find a repository">
+      </div>
+      <div class="control has-text-right">
+        <a class="button is-info">Search</a>
+      </div>
+    </div>
   </div>
-  <div class="column is-half has-text-right">
+
+  <div class="column has-text-right">
     <a class="button is-primary events-page-top__create-button" routerLink="create" routerLinkActive="active">Create event</a>
   </div>
+
 </div>
 
 <div class="columns events-page-info">
   <div class="column">
     <h2 class="events-page-info__title">Search results: </h2>
-    <p class="events-page-info__category">Category: All</p>
     <p class="events-page-info__number">Total: 5</p>
   </div>
 </div>

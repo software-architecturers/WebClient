@@ -1,5 +1,6 @@
 .events-page-top{
-  padding-top: 20px;
+  margin-top: 20px;
+  justify-content: space-between;
 }
 
 .events-page-info__title{
@@ -7,6 +8,6 @@
   font-weight: bold;
 }
 
-.events-page-top__sorting-button{
+.events-page-top__search{
   margin-left: 10px;
 }

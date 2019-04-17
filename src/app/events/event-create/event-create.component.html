@@ -1,25 +1,32 @@
-<h2>Create event page</h2>
-<form class="event-create" [formGroup]="eventCreateForm" (ngSubmit)="onSubmit()">
+<div class="columns event-create-page">
+  <div class="column">
 
-  <div class="form-group">
-    <label for="event-create__title">Add title:</label>
-    <input id="event-create__title" class="event-create__title" formControlName="title" name="title">
+    <h2 class="event-create-page__title">Create your event!</h2>
+
+    <form class="event-create-page__form" [formGroup]="eventCreateForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="event-create__title">Add title:</label>
+        <input id="event-create__title" class="event-create__title" formControlName="title" name="title">
+      </div>
+
+      <div class="form-group">
+        <label for="event-create__description">Add description:</label>
+        <textarea id="event-create__description" class="event-create__description" formControlName="description" name="text" cols="30" rows="5"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="event-create__image">Choose image:</label>
+        <input id="event-create__image" class="event-create__image" formControlName="image" type="file" accept="image/*">
+      </div>
+
+      <button class="create-post__submit button is-primary" [disabled]="!eventCreateForm.valid">Submit</button>
+
+      <p>
+        Form Status: {{ eventCreateForm.status }}
+      </p>
+
+    </form>
+
   </div>
-
-  <div class="form-group">
-    <label for="event-create__description">Add description:</label>
-    <textarea id="event-create__description" class="event-create__description" formControlName="description" name="text" cols="30" rows="5"></textarea>
-  </div>
-
-  <div class="form-group">
-    <label for="event-create__image">Choose image:</label>
-    <input id="event-create__image" class="event-create__image" formControlName="image" type="file" accept="image/*">
-  </div>
-
-  <button class="create-post__submit" [disabled]="!eventCreateForm.valid">Submit</button>
-
-  <p>
-    Form Status: {{ eventCreateForm.status }}
-  </p>
-
-</form>
+</div>

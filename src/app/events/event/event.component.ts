@@ -13,6 +13,7 @@ import {Subscription} from 'rxjs';
 export class EventComponent implements OnInit, OnDestroy{
   eventId: string;
   event: EventModel;
+  isLiked: boolean;
   private subscriptions: Subscription[] = [];
 
 
@@ -32,7 +33,13 @@ export class EventComponent implements OnInit, OnDestroy{
     this.store.dispatch(new RemoveEvent(this.eventId));
   }
 
-  ngOnInit(): void {}
+  public onLikeClick() {
+    this.isLiked = !this.isLiked;
+  }
+
+  ngOnInit(): void {
+    this.isLiked = false;
+  }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
