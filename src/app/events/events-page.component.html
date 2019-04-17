@@ -27,8 +27,30 @@
 </div>
 
 <div class="columns is-multiline">
-  <div class="column is-one-third" *ngFor="let event of events">
+  <div class="column is-one-third" *ngFor="let event of pageEvents">
     <app-event-preview [eventData]="event"></app-event-preview>
     <a routerLink="{{event.id}}" routerLinkActive="active">Show event</a>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column has-text-centered">
+    <ul class="events-page__pagination" *ngIf="pagination.pages && pagination.pages.length">
+      <li [ngClass]="{disabled: pagination.currentPage === 1}">
+        <a class="button" (click)="setPage(1)">First</a>
+      </li>
+      <li [ngClass]="{disabled: pagination.currentPage === 1}">
+        <a class="button" (click)="setPage(pagination.currentPage -1)">Previous</a>
+      </li>
+      <li *ngFor="let page of pagination.pages">
+        <a class="button" (click)="setPage(page)" [ngClass]="{'is-primary':pagination.currentPage === page}">{{page}}</a>
+      </li>
+      <li [ngClass]="{disabled:pagination.currentPage === pagination.totalPages}">
+        <a class="button" (click)="setPage(pagination.currentPage + 1)">Next</a>
+      </li>
+      <li [ngClass]="{disabled:pagination.currentPage === pagination.totalPages}">
+        <a class="button" (click)="setPage(pagination.totalPages)">Last</a>
+      </li>
+    </ul>
   </div>
 </div>
