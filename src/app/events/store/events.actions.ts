@@ -1,5 +1,9 @@
 import EventModel from '../event.model';
 
+export class GetEvents {
+  static readonly type = '[Events] Get events';
+  constructor() {}
+}
 export class AddEvent {
   static readonly type = '[Events] Add event';
   constructor(public event: EventModel) {}
