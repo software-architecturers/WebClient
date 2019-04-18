@@ -2,9 +2,9 @@
 
   <div class="column is-one-third ">
     <div class="is-vertical-centre">
-      <h2 class="tile">{{ (user$ | async).username }}</h2>
+      <h2 class="tile">{{ user.userName }}</h2>
       <figure class="image is-256x256">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Mozilla_Firefox_3.5_logo_256.png">
+        <img src="{{pictureUrl}}">
       </figure>
     </div>
   </div>

@@ -13,17 +13,19 @@ import { NgxsModule } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
 import { EncodeURIPipe } from './encode-uri.pipe';
 import { UserComponent } from './user/user.component';
-
+import { AuthCallbackComponent } from './auth/auth-callback/auth-callback.component';
+import { AuthState } from './auth/store/auth.store';
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     EncodeURIPipe,
-    UserComponent
+    UserComponent,
+    AuthCallbackComponent
   ],
   imports: [
     BrowserModule,
-    NgxsModule.forRoot([], { developmentMode: !environment.production }),
+    NgxsModule.forRoot([AuthState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),

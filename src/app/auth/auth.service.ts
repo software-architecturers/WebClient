@@ -1,44 +1,68 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { UserManager, User } from 'oidc-client';
+import { environment } from 'src/environments/environment';
+import { Store } from '@ngxs/store';
+import { SetUser, RemoveUser } from './store/auth.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  static TEST_EMAIL = 't@1';
-  static TEST_PASSWORD = '123';
 
-  private subject = new BehaviorSubject<boolean>(!!localStorage.getItem('token'));
+  private subject = new BehaviorSubject<boolean>(false);
+  private manager = new UserManager(environment.oidcClientConfig);
 
-  constructor() { }
+  private user: User = null;
 
 
-  login(email: string, password: string) {
-    if (email === AuthService.TEST_EMAIL
-      && password === AuthService.TEST_PASSWORD) {
-      localStorage.setItem('token', 'TOKEN');
+  constructor(private store: Store) {
+    const onLoad = (user: User) => {
+      this.user = user;
+      store.dispatch(new SetUser(user.profile));
       this.subject.next(true);
-    }
+    };
+    const onUnload = () => {
+      this.user = null;
+      this.subject.next(false);
+      this.store.dispatch(new RemoveUser());
+    };
+    this.manager.events.addUserLoaded(onLoad);
+    this.manager.events.addUserUnloaded(onUnload);
+    this.manager.events.addUserSignedOut(onUnload);
+    this.initializeUser();
   }
 
-  logout(): void {
-    localStorage.removeItem('token');
-    this.subject.next(false);
+  initializeUser() {
+    this.manager.getUser().then(user => {
+      if (user && !user.expired) {
+        this.user = user;
+        this.store.dispatch(new SetUser(user.profile));
+        this.subject.next(true);
+      }
+    });
   }
 
-  getUserInfo() {
-    return this.subject.pipe(map(v => {
-      if (v) {
-        return {
-          username: 'Test User',
-          email: AuthService.TEST_EMAIL
-        };
-      } else { return null; }
-    }));
+
+  startAuthentication(): Promise<void> {
+    return this.manager.signinRedirect();
   }
+
+  completeAuthentication(): Promise<void> {
+    return this.manager.signinRedirectCallback().then(user => {
+    });
+  }
+
+  logout() {
+    this.manager.signoutRedirect();
+  }
+
 
   isLoggedIn(): Observable<boolean> {
     return this.subject.asObservable();
+  }
+
+  getAuthorizationHeaderValue(): string {
+    return `${this.user.token_type} ${this.user.access_token}`;
   }
 }

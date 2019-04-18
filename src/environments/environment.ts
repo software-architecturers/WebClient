@@ -2,8 +2,34 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { WebStorageStateStore } from 'oidc-client';
+
 export const environment = {
-  production: false
+  production: false,
+
+  oidcClientConfig: {
+    authority: 'https://localhost:5001',
+    client_id: 'spa',
+    redirect_uri: window.location.origin + '/auth-callback',
+    includeIdTokenInSilentRenew: true,
+
+    response_type: 'id_token token',
+    scope: 'openid profile api',
+
+    // this will toggle if profile endpoint is used
+    loadUserInfo: true,
+
+    // silent renew will get a new access_token via an iframe
+    // just prior to the old access_token expiring (60 seconds prior)
+    silent_redirect_uri: window.location.origin + '/silent.html',
+    automaticSilentRenew: true,
+
+    // will revoke (reference) access tokens at logout time
+    revokeAccessTokenOnSignout: true,
+
+    filterProtocolClaims: true,
+    userStore: new WebStorageStateStore({ store: window.localStorage })
+  }
 };
 
 /*

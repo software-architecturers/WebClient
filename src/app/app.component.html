@@ -18,12 +18,12 @@
     <div class="navbar-end">
       <ng-container *ngIf="!(isLoggedIn$ | async); else elseBlock">
         <div class="navbar-item buttons">
-          <a class="is-primary button" routerLink="/login">Login</a>
-          <a class="is-light button" routerLink="/register">Register</a>
+          <a class="is-primary button" (click)="login()">Login</a>
+          <a class="is-light button" href="{{authServerUrl}}/register?returnUrl={{route}}">Register</a>
         </div>
       </ng-container>
       <ng-template #elseBlock>
-        <a class="navbar-item" [routerLink]="['/u', (auth.getUserInfo() | async).username | encodeURI]">Me</a>
+        <a class="navbar-item" [routerLink]="['/u', currentUser.id]">Me</a>
         <div class="navbar-item has-dropdown is-hoverable">
 
           <a class="navbar-link is-hidden-touch"></a>

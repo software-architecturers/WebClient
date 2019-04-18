@@ -5,6 +5,7 @@ import { HomePageComponent } from './home/home-page.component';
 import { DeclarativePreloadingStrategyService } from './declarative-preloading-strategy.service';
 import { NotAuthGuard } from './auth/not-auth.guard';
 import { UserComponent } from './user/user.component';
+import { AuthCallbackComponent } from './auth/auth-callback/auth-callback.component';
 
 const routes: Routes = [
   {
@@ -16,16 +17,7 @@ const routes: Routes = [
   },
   { path: 'home', component: HomePageComponent },
   { path: 'u/:id', component: UserComponent },
-  {
-    path: 'login',
-    loadChildren: './auth/login/login.module#LoginModule',
-    canLoad: [NotAuthGuard]
-  },
-  {
-    path: 'register',
-    loadChildren: './auth/register/register.module#RegisterModule',
-    canLoad: [NotAuthGuard]
-  },
+  { path: 'auth-callback', component: AuthCallbackComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

@@ -7,15 +7,6 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    spyOn(localStorage, 'getItem').and.callFake((key: string) => {
-      return testStorage[key] || null;
-    });
-    spyOn(localStorage, 'removeItem').and.callFake((key: string) => {
-      delete testStorage[key];
-    });
-    spyOn(localStorage, 'setItem').and.callFake((key: string, value: string) => {
-      return testStorage[key] = value.toString();
-    });
   });
 
   it('should log the mock user in', (done: DoneFn) => {
