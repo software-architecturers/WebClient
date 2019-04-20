@@ -6,7 +6,6 @@ import { WebStorageStateStore } from 'oidc-client';
 
 export const environment = {
   production: false,
-
   oidcClientConfig: {
     authority: 'https://localhost:5001',
     client_id: 'spa',

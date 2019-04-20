@@ -10,12 +10,11 @@ import {Subscription} from 'rxjs';
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.scss']
 })
-export class EventComponent implements OnInit, OnDestroy{
-  eventId: string;
+export class EventComponent implements OnInit, OnDestroy {
   event: EventModel;
+  eventId: string;
   isLiked: boolean;
   private subscriptions: Subscription[] = [];
-
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +28,7 @@ export class EventComponent implements OnInit, OnDestroy{
     );
   }
 
-  public onClick() {
+  public onRemoveClick() {
     this.store.dispatch(new RemoveEvent(this.eventId));
   }
 
