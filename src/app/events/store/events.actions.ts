@@ -4,6 +4,10 @@ export class GetEvents {
   static readonly type = '[Events] Get events';
   constructor() {}
 }
+export class GetEventById {
+  static readonly type = '[Events] Get event';
+  constructor(public id: string) {}
+}
 export class AddEvent {
   static readonly type = '[Events] Add event';
   constructor(public event: EventModel) {}

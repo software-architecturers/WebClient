@@ -1,10 +1,10 @@
 <div class="columns event">
-  <div class="column">
-    <img src="{{event.image}}" alt="">
+  <div class="column" *ngIf="event.images[0]">
+    <img src="{{event.images[0}}" alt="">
   </div>
   <div class="column">
-    <h1 class="event__title">Title: {{event.title}}</h1>
-    <h2 class="event__description">Description: {{event.description}}</h2>
+    <h1 class="event__title">Title: {{event.title || ''}}</h1>
+    <h2 class="event__description">Description: {{event.description || ''}}</h2>
     <button class="event__like button" [ngClass]="{'is-danger': isLiked}" (click)="onLikeClick()">
       {{isLiked ? 'Unlike' : 'Like'}}
     </button>

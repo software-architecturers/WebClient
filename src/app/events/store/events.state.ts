@@ -1,19 +1,21 @@
 import { State, Action, StateContext } from '@ngxs/store';
 import EventModel from '../event.model';
-import {GetEvents, AddEvent, RemoveEvent, LikeEvent} from './events.actions';
+import {GetEvents, AddEvent, RemoveEvent, LikeEvent, GetEventById} from './events.actions';
 import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
 
-const apiUrl = 'assets/events.json';
+const apiUrl = 'http://192.168.43.254:8081';
 
 export interface EventsStateModel {
   eventList: Array<EventModel>;
+  currentEvent: EventModel;
 }
 
 @State<EventsStateModel>({
   name: 'events',
   defaults: {
-    eventList: []
+    eventList: [],
+    currentEvent: null
   }
 })
 
@@ -23,9 +25,32 @@ export class EventsState {
 
   @Action(GetEvents)
   getEvents(context: StateContext<EventsStateModel>) {
-    return this.http.get<Array<EventModel>>(apiUrl).pipe(tap(data  => {
-      context.setState({
+    return this.http.get<Array<EventModel>>(`${apiUrl}/api/events`).pipe(tap(data  => {
+      context.patchState({
         eventList: [...data]
+      });
+    }));
+  }
+
+  @Action(GetEventById)
+  getEvent(context: StateContext<EventsStateModel>, {id}: GetEventById) {
+    const state = context.getState();
+    const event = state.eventList.find(v => String(v.id) === id);
+    if (event) {
+      context.patchState({
+        currentEvent: event
+      });
+      return;
+    }
+    return this.http.get<EventModel>(`${apiUrl}/api/events/${id}`)
+      .pipe(tap(data  => {
+      context.patchState({
+        currentEvent: {
+          id: data.id,
+          title: data.title,
+          description: data.description,
+          images: data.images,
+        }
       });
     }));
   }

@@ -1,9 +1,10 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import EventModel from '../event.model';
 import {ActivatedRoute} from '@angular/router';
-import { RemoveEvent } from '../store/events.actions';
+import {GetEventById, GetEvents, RemoveEvent} from '../store/events.actions';
 import { Store } from '@ngxs/store';
 import {Subscription} from 'rxjs';
+import {startWith, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-event',
@@ -21,11 +22,15 @@ export class EventComponent implements OnInit, OnDestroy {
     private store: Store,
   ) {
     this.eventId = route.snapshot.params.id;
-    this.subscriptions.push(store.select(state => state.events.eventList)
-      .subscribe(data => {
-        data.map(event => event.id === this.eventId ? this.event = event : null);
-      })
-    );
+    this.subscriptions.push(
+      this.store.dispatch(new GetEventById(this.eventId)).pipe(
+        switchMap(() => this.store.select(s => s.events.currentEvent)),
+        startWith({
+          name: ''
+                       ,
+                       })
+      )
+      .subscribe(event => this.event = event));
   }
 
   public onRemoveClick() {
