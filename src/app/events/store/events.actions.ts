@@ -12,3 +12,7 @@ export class RemoveEvent {
   static readonly type = '[Events] Remove event';
   constructor(public id: string) {}
 }
+export class LikeEvent {
+  static readonly type = '[Events] Like event';
+  constructor(public id: string) {}
+}
