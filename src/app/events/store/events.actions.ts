@@ -18,5 +18,5 @@ export class RemoveEvent {
 }
 export class LikeEvent {
   static readonly type = '[Events] Like event';
-  constructor(public id: string) {}
+  constructor(public id: string, public isDetailView: boolean) {}
 }
