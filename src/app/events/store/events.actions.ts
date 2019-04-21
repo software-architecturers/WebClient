@@ -16,6 +16,10 @@ export class RemoveEvent {
   static readonly type = '[Events] Remove event';
   constructor(public id: string) {}
 }
+export class SearchEvent {
+  static readonly type = '[Events] Search event';
+  constructor(public search: string) {}
+}
 export class LikeEvent {
   static readonly type = '[Events] Like event';
   constructor(public id: string, public isDetailView: boolean) {}

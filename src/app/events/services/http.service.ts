@@ -13,7 +13,8 @@ export class HttpService {
   }
 
   public getEvents() {
-    return this.http.get<Array<any>>(`${apiUrl}`);
+    return this.http.get<any>(`${apiUrl}`);
+    // return this.http.get<any>(`${apiUrl}/api/events`);
   }
 
   public getEventById(id) {
@@ -33,7 +34,8 @@ export class HttpService {
   }
 
   public searchEvent(search) {
-    return this.http.get<any>(`${apiUrl}/api/events/find/${search}`);
+    return this.http.get<any>(`${apiUrl}`);
+    // return this.http.get<any>(`${apiUrl}/api/events/find/${search}`);
   }
 
   public likeEvent(id) {
