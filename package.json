@@ -24,6 +24,7 @@
     "babel-polyfill": "^6.26.0",
     "bulma": "^0.7.4",
     "core-js": "^2.5.4",
+    "immutable": "^4.0.0-rc.12",
     "oidc-client": "^1.7.1",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",

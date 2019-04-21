@@ -1,19 +1,19 @@
-import { State, Action, StateContext } from '@ngxs/store';
-import { patch, append, updateItem, removeItem } from '@ngxs/store/operators';
-import EventModel from '../event.model';
-import { GetEvents, AddEvent, RemoveEvent, LikeEvent, GetEventById } from './events.actions';
-import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import {State, Action, StateContext} from '@ngxs/store';
+import {patch, append, updateItem, removeItem} from '@ngxs/store/operators';
+import Event from '../event.model';
+import {GetEvents, AddEvent, RemoveEvent, LikeEvent, GetEventById} from './events.actions';
+import {HttpService} from '../services/http.service';
+import {tap} from 'rxjs/operators';
 
-const apiUrl = 'http://192.168.43.254:8081';
 
 export interface EventsStateModel {
-  eventList: Array<EventModel>;
-  currentEvent: EventModel;
+  eventList: Event[];
+  currentEvent: Event;
 }
 
 // TODO: actually add a like
-const addLike = () => (event: Readonly<EventModel>) => ({ ...event });
+const addLike = () => (event: Event) => ({...event});
+
 
 @State<EventsStateModel>({
   name: 'events',
@@ -24,19 +24,23 @@ const addLike = () => (event: Readonly<EventModel>) => ({ ...event });
 })
 export class EventsState {
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpService: HttpService) {
+  }
 
   @Action(GetEvents)
-  getEvents({ patchState }: StateContext<EventsStateModel>) {
-    return this.http.get<Array<EventModel>>(`${apiUrl}/api/events`).pipe(
-      tap(data => patchState({
-        eventList: data
-      }))
-    );
+  getEvents({patchState}: StateContext<EventsStateModel>) {
+    return this.httpService.getEvents()
+      .pipe(
+        tap(data => patchState({
+          eventList: data.map(event => {
+            return new Event({...event});
+          })
+        }))
+      );
   }
 
   @Action(GetEventById)
-  getEvent({ patchState, getState }: StateContext<EventsStateModel>, { id }: GetEventById) {
+  getEvent({patchState, getState}: StateContext<EventsStateModel>, {id}: GetEventById) {
     const events = getState().eventList;
     const event = events.find(v => v.id.toString() === id);
     if (event) {
@@ -45,57 +49,52 @@ export class EventsState {
       });
       return;
     }
-    return this.http.get<EventModel>(`${apiUrl}/api/events/${id}`)
+    return this.httpService.getEventById(id)
       .pipe(tap(data => {
         patchState({
-          currentEvent: {
-            id: data.id,
-            title: data.title,
-            description: data.description,
-            images: data.images,
-          }
+          currentEvent: new Event({...data})
         });
       }));
   }
 
   @Action(AddEvent)
-  addEvent({ setState }: StateContext<EventsStateModel>, { event }: AddEvent) {
-    return this.http.post<EventModel>(apiUrl + '/api/events/add', {
-      title: event.title,
-      description: event.description,
-      images: null
-    }).pipe(
-      tap(data => setState(patch({
-        eventList: append([data])
-      })))
-    );
+  addEvent({setState}: StateContext<EventsStateModel>, {event}: AddEvent) {
+    return this.httpService.addEvent({...event})
+      .pipe(
+        tap(data => setState(patch({
+          eventList: append([new Event({...data})])
+        })))
+      );
   }
 
   @Action(RemoveEvent)
-  removeEvent({ setState }: StateContext<EventsStateModel>, { id }: RemoveEvent) {
-    return this.http.delete(`${apiUrl}/api/events/delete/${id}`).pipe(
-      tap(() => setState(patch({
-        eventList: removeItem<EventModel>(e => e.id.toString() === id)
-      })))
-    );
+  removeEvent({setState}: StateContext<EventsStateModel>, {id}: RemoveEvent) {
+    return this.httpService.removeEvent(id)
+      .pipe(
+        tap(() => setState(patch({
+          eventList: removeItem<Event>(e => e.id.toString() === id)
+        })))
+      );
   }
 
   @Action(LikeEvent)
-  likeEvent({ setState }: StateContext<EventsStateModel>, { id, isDetailView }: LikeEvent) {
-    return this.http.post(`${apiUrl}/events/like`, { id }).pipe(
-      tap(res => {
-        if (res === 'ok') {
-          if (isDetailView) {
-            setState(patch({
-              currentEvent: addLike()
-            }));
-          } else {
-            setState(patch({
-              eventList: updateItem<EventModel>(e => e.id.toString() === id, addLike())
-            }));
+  likeEvent({setState}: StateContext<EventsStateModel>, {id, isDetailView}: LikeEvent) {
+    return this.httpService.likeEvent(id)
+      .pipe(
+        tap(res => {
+          if (res === 'ok') {
+            if (isDetailView) {
+              setState(patch({
+                currentEvent: addLike()
+              }));
+            } else {
+              setState(patch({
+                eventList: updateItem<Event>(e => e.id.toString() === id, addLike())
+              }));
+            }
           }
-        }
-      }));
+        })
+      );
   }
 }
 

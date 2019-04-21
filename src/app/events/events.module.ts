@@ -13,6 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
+import { HttpService } from './services/http.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,6 +22,9 @@ import { HttpClientModule } from '@angular/common/http';
     EventsRoutingModule,
     ReactiveFormsModule,
     HttpClientModule
+  ],
+  providers: [
+    HttpService
   ],
   declarations: [
     EventsPageComponent,
