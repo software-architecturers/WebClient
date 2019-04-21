@@ -1,8 +1,8 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import EventModel from '../event.model';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import EventModel from '../../event.model';
 import {ActivatedRoute} from '@angular/router';
-import {GetEventById, GetEvents, RemoveEvent} from '../store/events.actions';
-import { Store } from '@ngxs/store';
+import {GetEventById, RemoveEvent} from '../../store/events.actions';
+import {Store} from '@ngxs/store';
 import {Subscription} from 'rxjs';
 import {startWith, switchMap} from 'rxjs/operators';
 
@@ -25,12 +25,9 @@ export class EventComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.store.dispatch(new GetEventById(this.eventId)).pipe(
         switchMap(() => this.store.select(s => s.events.currentEvent)),
-        startWith({
-          name: ''
-                       ,
-                       })
+        startWith({name: ''})
       )
-      .subscribe(event => this.event = event));
+        .subscribe(event => this.event = event));
   }
 
   public onRemoveClick() {

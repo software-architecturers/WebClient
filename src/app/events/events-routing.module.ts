@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { EventComponent } from './event/event.component';
-import { EventCreateComponent } from './event-create/event-create.component';
-import { EventsPageComponent } from './events-page.component';
+import { EventComponent } from './components/event/event.component';
+import { EventCreateComponent } from './components/event-create/event-create.component';
+import { EventsPageComponent } from './components/events-page/events-page.component';
 
 const eventsRoutes: Routes = [
   { path: '', component: EventsPageComponent },

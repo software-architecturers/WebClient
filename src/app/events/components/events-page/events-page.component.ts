@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import EventModel from './event.model';
+import EventModel from '../../event.model';
 import { Store } from '@ngxs/store';
 import { Subscription } from 'rxjs';
-import { EventsService } from './events.service';
-import { GetEvents } from './store/events.actions';
+import { PaginationService } from '../../services/pagination.service';
+import { GetEvents } from '../../store/events.actions';
 
 @Component({
   selector: 'app-events-page',
@@ -18,7 +18,7 @@ export class EventsPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private eventsService: EventsService
+    private eventsService: PaginationService
   ) {
     this.store.dispatch(new GetEvents());
     this.subscriptions.push(this.store.select(state => state.events.eventList)

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { AddEvent } from '../store/events.actions';
+import { AddEvent } from '../../store/events.actions';
 
 
 @Component({

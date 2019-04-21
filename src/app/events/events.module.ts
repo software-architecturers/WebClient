@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { EventsPageComponent } from './events-page.component';
-import { EventPreviewComponent } from './event-preview/event-preview.component';
-import { EventComponent } from './event/event.component';
-import { EventCreateComponent } from './event-create/event-create.component';
+import { EventsPageComponent } from './components/events-page/events-page.component';
+import { EventPreviewComponent } from './components/event-preview/event-preview.component';
+import { EventComponent } from './components/event/event.component';
+import { EventCreateComponent } from './components/event-create/event-create.component';
 
 import { EventsRoutingModule } from './events-routing.module';
 import { NgxsModule } from '@ngxs/store';
