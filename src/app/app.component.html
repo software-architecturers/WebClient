@@ -19,7 +19,7 @@
       <ng-container *ngIf="!(isLoggedIn$ | async); else elseBlock">
         <div class="navbar-item buttons">
           <a class="is-primary button" (click)="login()">Login</a>
-          <a class="is-light button" href="{{authServerUrl}}/register?returnUrl={{route}}">Register</a>
+          <a class="is-light button" routerLink="/register">Register</a>
         </div>
       </ng-container>
       <ng-template #elseBlock>
