@@ -1,4 +1,4 @@
-import { UserModel } from '../user.model';
+import { UserModel } from '../models/user.model';
 import { State, StateContext, Action } from '@ngxs/store';
 import { SetUser, RemoveUser } from './auth.actions';
 

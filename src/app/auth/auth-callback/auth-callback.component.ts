@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
 
