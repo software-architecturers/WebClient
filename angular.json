@@ -24,7 +24,9 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/silent.html",
+              "src/dist/oidc-client.min.js"
             ],
             "styles": [
               "node_modules/bulma/css/bulma.min.css",

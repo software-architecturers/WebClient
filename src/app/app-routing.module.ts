@@ -18,6 +18,11 @@ const routes: Routes = [
   { path: 'home', component: HomePageComponent },
   { path: 'u/:id', component: UserComponent },
   { path: 'auth-callback', component: AuthCallbackComponent },
+  {
+    path: 'register',
+    loadChildren: './auth/register/register.module#RegisterModule',
+    canLoad: [NotAuthGuard]
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

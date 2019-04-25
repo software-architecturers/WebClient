@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UserManager, User } from 'oidc-client';
 import { environment } from 'src/environments/environment';
 import { Store } from '@ngxs/store';
-import { SetUser, RemoveUser } from './store/auth.actions';
+import { SetUser, RemoveUser } from '../store/auth.actions';
 
 @Injectable({
   providedIn: 'root'

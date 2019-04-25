@@ -4,7 +4,7 @@ import {
   RouterStateSnapshot,
   CanActivateChild,
   CanLoad, Route, Router} from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { map, tap, take } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
