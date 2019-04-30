@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { UserService } from '../services/user.service';
 import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
+import RegisterModel from '../models/register.model';
 
 
 

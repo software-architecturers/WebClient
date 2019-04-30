@@ -1,12 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Location} from '@angular/common';
 import { AuthService } from './auth/services/auth.service';
 import { environment } from 'src/environments/environment';
-import { Select, Store } from '@ngxs/store';
-import { Subscription, from } from 'rxjs';
-import { UserModel } from './auth/models/user.model';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { Subscription } from 'rxjs';
+import UserModel from './auth/models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -33,8 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store) {
     this.subs.push(
       this.store.select(store => store.auth.currentUser).subscribe(cu => {
-      this.currentUser = cu;
-    }));
+        this.currentUser = cu;
+      }));
   }
 
 

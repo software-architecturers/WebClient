@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { from } from 'rxjs';
+import RegisterModel from '../models/register.model';
 
 const HOST_URL = environment.oidcClientConfig.authority + '/api';
 @Injectable({

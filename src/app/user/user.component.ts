@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/services/auth.service';
 import { Store } from '@ngxs/store';
 import { ActivatedRoute } from '@angular/router';
-import { UserModel } from '../auth/models/user.model';
+import UserModel from '../auth/models/user.model';
 import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
