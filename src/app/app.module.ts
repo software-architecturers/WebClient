@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
@@ -14,7 +14,8 @@ import { AuthState } from './auth/store/auth.store';
 import { EncodeURIPipe } from './encode-uri.pipe';
 import { HomePageComponent } from './home/home-page.component';
 import { UserComponent } from './user/user.component';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,17 @@ import { UserComponent } from './user/user.component';
     NgxsRouterPluginModule.forRoot(),
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: JwtHelperService,
+      useValue: new JwtHelperService()
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

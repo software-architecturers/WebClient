@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import * as jwkDecode from 'jwt-decode';
 import { UserManager } from 'oidc-client';
 import { interval, Observable } from 'rxjs';
 import { exhaustMap, map, switchMap } from 'rxjs/operators';
@@ -9,6 +8,7 @@ import LoginModel from '../models/login.model';
 import { Login, Logout } from '../store/auth.actions';
 import { AuthState } from '../store/auth.store';
 import { UserService } from './user.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +26,9 @@ export class AuthService {
   });
 
 
-  constructor(private store: Store, private userService: UserService) {
+  constructor(private store: Store,
+    private userService: UserService,
+    private jwt: JwtHelperService) {
     interval(60_000).pipe(
       switchMap(() => this.store.select(AuthState.token)),
       exhaustMap(token => this.userService.refreshToken({ token }))
@@ -50,18 +52,14 @@ export class AuthService {
 
 
   isLoggedIn(): Observable<boolean> {
-    return this.store.select(state => state.auth.token).pipe(
-      map(token => {
-        if (!token) {
-          return false;
-        }
-        const { exp } = jwkDecode(token);
-        return Date.now() < exp * 1000;
-      })
+    return this.store.select(AuthState.token).pipe(
+      map(token => !!token)
     );
   }
 
-  getAuthorizationHeaderValue(): string {
+  getAuthorizationHeaderValue(): string | null {
+    const token = this.store.selectSnapshot(AuthState.token);
+    if (!token) { return null; }
     return `Bearer ${this.store.selectSnapshot(AuthState.token)}`;
   }
 }

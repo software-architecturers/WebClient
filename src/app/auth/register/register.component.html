@@ -28,9 +28,9 @@
       <button class="button is-link" type="submit" [disabled]="!registerForm.valid">Register</button>
     </div>
   </div>
+  <div *ngIf="isDev">
+    <p>{{registerForm.status}}</p>
+    <p>{{registerForm.value | json}}</p>
+    <p>{{registerForm.errors | json}}</p>
+  </div>
 </form>
-<div *ngIf="isDev">
-  <p>{{registerForm.status}}</p>
-  <p>{{registerForm.value | json}}</p>
-  <p>{{registerForm.errors | json}}</p>
-</div>

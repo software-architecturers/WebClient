@@ -1,7 +1,7 @@
 import UserModel from '../models/user.model';
 import { State, StateContext, Action, NgxsOnInit, Selector } from '@ngxs/store';
 import { Login, Logout } from './auth.actions';
-import * as jwtDecode from 'jwt-decode';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 export interface AuthStateModel {
   token: string;
@@ -14,6 +14,7 @@ export interface AuthStateModel {
 })
 export class AuthState implements NgxsOnInit {
 
+  constructor(private jwt: JwtHelperService) { }
   @Selector()
   static token({ token }: AuthStateModel) {
     return token;
@@ -35,7 +36,7 @@ export class AuthState implements NgxsOnInit {
   @Action(Login)
   login({ setState }: StateContext<AuthStateModel>, { token }: Login) {
     try {
-      const body: any = jwtDecode(token);
+      const body: any = this.jwt.decodeToken(token);
       setState({
         currentUser: this.bodyToUserModel(body),
         token
