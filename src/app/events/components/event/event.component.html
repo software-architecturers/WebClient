@@ -1,6 +1,6 @@
 <div class="columns event">
   <div class="column" *ngIf="event.images[0]">
-    <img src="{{event.images[0]}}" alt="">
+    <img src="{{event.images[0].link}}" alt="">
   </div>
   <div class="column">
     <h1 class="event__title">Title: {{event.title || ''}}</h1>

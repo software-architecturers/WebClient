@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-// const apiUrl = 'http://192.168.43.254:8081';
-const apiUrl = 'assets/events.json';
+const apiUrl = 'http://localhost:8080';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +12,7 @@ export class HttpService {
   }
 
   public getEvents() {
-    return this.http.get<any>(`${apiUrl}`);
-    // return this.http.get<any>(`${apiUrl}/api/events`);
+    return this.http.get<any>(`${apiUrl}/api/events`);
   }
 
   public getEventById(id) {
@@ -34,8 +32,7 @@ export class HttpService {
   }
 
   public searchEvent(search) {
-    return this.http.get<any>(`${apiUrl}`);
-    // return this.http.get<any>(`${apiUrl}/api/events/find/${search}`);
+    return this.http.get<any>(`${apiUrl}/api/events/find/${search}`);
   }
 
   public likeEvent(id) {
