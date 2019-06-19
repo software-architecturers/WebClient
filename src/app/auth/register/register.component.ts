@@ -5,9 +5,17 @@ import { UserService } from '../services/user.service';
 import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
 import RegisterModel from '../models/register.model';
+import { HttpClient } from '@angular/common/http';
 
 
+const passwordsMatchValidator: ValidatorFn = (control: FormGroup) => {
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
 
+  return (password && confirmPassword && password.value !== confirmPassword.value)
+    ? { passwordMismatch: true }
+    : null;
+};
 
 @Component({
   selector: 'app-register',
@@ -23,7 +31,7 @@ export class RegisterComponent implements OnInit {
     password: ['', [Validators.required, /*Validators.pattern('^(?=.*?[a-z])(?=.*?[0-9]).{8,450}$')*/]],
     confirmPassword: ['', [Validators.required, /*Validators.pattern('^(?=.*?[a-z])(?=.*?[0-9]).{8,450}$'))*/]],
   }, {
-      validators: [RegisterComponent.passwordsMatchValidator]
+      validators: [passwordsMatchValidator]
     }
   );
 
@@ -31,27 +39,42 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private store: Store
-  ) { }
+  ) {
+  }
+
 
 
   get isDev() {
     return !environment.production;
   }
 
-  private static passwordsMatchValidator: ValidatorFn = (control: FormGroup) => {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
 
-    return (password && confirmPassword && password.value !== confirmPassword.value)
-      ? { passwordMismatch: true }
-      : null;
+  private get name() {
+    return this.registerForm.get('name');
+  }
+
+  private get email() {
+    return this.registerForm.get('email');
+  }
+
+  private get password() {
+    return this.registerForm.get('password');
+  }
+
+  private get confirmPassword() {
+    return this.registerForm.get('confirmPassword');
   }
 
   ngOnInit() { }
 
   onSubmit() {
-    const value: RegisterModel = this.registerForm.value;
-    this.userService.register(value).subscribe(res => {
+    const value: RegisterModel = {
+      login: this.name.value,
+      email: this.email.value,
+      password: this.password.value,
+      confirmPassword: this.confirmPassword.value,
+    };
+    this.userService.register(value).subscribe(() => {
       this.store.dispatch(new Navigate(['']));
     });
   }

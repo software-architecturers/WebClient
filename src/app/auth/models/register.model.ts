@@ -1,5 +1,5 @@
 export default interface RegisterModel {
-  userName: string;
+  login: string;
   email: string;
   password: string;
   confirmPassword: string;

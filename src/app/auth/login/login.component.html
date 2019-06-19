@@ -1,16 +1,39 @@
 <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
-    <label>
-      Email:
-      <input type="email" formControlName="email">
+  <div class="field">
+    <label class="label">
+      Username:
     </label>
-    <label>
-      Password:
-      <input type="password" formControlName="password">
-    </label>
-    <button type="submit" [disabled]="!loginForm.valid">Login</button>
-  </form>
-
-  <div *ngIf="isDev">
-    <p>{{loginForm.status}}</p>
-    <p>{{loginForm.value | json}}</p>
+    <div class="control">
+      <input class="input" type="text" formControlName="username" autocomplete="username">
+    </div>
   </div>
+  <div class="field">
+    <label class="label">
+      Password:
+    </label>
+    <div class="control">
+      <input class="input" type="password" formControlName="password" autocomplete="current-password">
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <button class="button is-primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+    </div>
+  </div>
+  <div id="external" class="field">
+    <div *ngIf="externalProviders$ | async as externalProviders; else noProviders">
+      <div class="control" *ngFor="let provider of externalProviders">
+        {{provider.displayName}}
+      </div>
+    </div>
+    <ng-template #noProviders>
+      <div class="box is-marginless">
+        No external providers
+      </div>
+    </ng-template>
+    <div *ngIf="isDev">
+      <p>{{loginForm.status}}</p>
+      <p>{{loginForm.value | json}}</p>
+    </div>
+  </div>
+</form>

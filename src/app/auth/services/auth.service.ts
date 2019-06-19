@@ -1,46 +1,36 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { UserManager, User } from 'oidc-client';
-import { environment } from 'src/environments/environment';
 import { Store } from '@ngxs/store';
-import { SetUser, RemoveUser } from '../store/auth.actions';
-
+import * as jwkDecode from 'jwt-decode';
+import { UserManager } from 'oidc-client';
+import { interval, Observable } from 'rxjs';
+import { exhaustMap, map, switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import LoginModel from '../models/login.model';
+import { Login, Logout } from '../store/auth.actions';
+import { AuthState } from '../store/auth.store';
+import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private subject = new BehaviorSubject<boolean>(false);
-  private manager = new UserManager(environment.oidcClientConfig);
 
-  private user: User = null;
+  private manager = new UserManager({
+    authority: environment.authUrl,
+    client_id: 'spa',
+    redirect_uri: window.location.origin + '/auth-callback',
+
+    response_type: 'id_token token',
+    scope: 'openid profile email',
+
+  });
 
 
-  constructor(private store: Store) {
-    const onLoad = (user: User) => {
-      this.user = user;
-      store.dispatch(new SetUser(user.profile));
-      this.subject.next(true);
-    };
-    const onUnload = () => {
-      this.user = null;
-      this.subject.next(false);
-      this.store.dispatch(new RemoveUser());
-    };
-    this.manager.events.addUserLoaded(onLoad);
-    this.manager.events.addUserUnloaded(onUnload);
-    this.manager.events.addUserSignedOut(onUnload);
-    this.initializeUser();
-  }
-
-  initializeUser() {
-    this.manager.getUser().then(user => {
-      if (user && !user.expired) {
-        this.user = user;
-        this.store.dispatch(new SetUser(user.profile));
-        this.subject.next(true);
-      }
-    });
+  constructor(private store: Store, private userService: UserService) {
+    interval(60_000).pipe(
+      switchMap(() => this.store.select(AuthState.token)),
+      exhaustMap(token => this.userService.refreshToken({ token }))
+    ).subscribe(({ token }) => this.store.dispatch(new Login(token)));
   }
 
 
@@ -48,21 +38,30 @@ export class AuthService {
     return this.manager.signinRedirect();
   }
 
-  completeAuthentication(): Promise<void> {
-    return this.manager.signinRedirectCallback().then(user => {
-    });
+  logout() {
+    return this.store.dispatch(new Logout());
   }
 
-  logout() {
-    this.manager.signoutRedirect();
+  login(loginModel: LoginModel) {
+    return this.userService.login(loginModel).pipe(
+      switchMap(({ token }) => this.store.dispatch(new Login(token)))
+    );
   }
 
 
   isLoggedIn(): Observable<boolean> {
-    return this.subject.asObservable();
+    return this.store.select(state => state.auth.token).pipe(
+      map(token => {
+        if (!token) {
+          return false;
+        }
+        const { exp } = jwkDecode(token);
+        return Date.now() < exp * 1000;
+      })
+    );
   }
 
   getAuthorizationHeaderValue(): string {
-    return `${this.user.token_type} ${this.user.access_token}`;
+    return `Bearer ${this.store.selectSnapshot(AuthState.token)}`;
   }
 }

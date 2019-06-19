@@ -1,5 +1,7 @@
-label {
-  display: block;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+@import "~src/styles";
+@include desktop {
+  form {
+    margin: auto;
+    width: 50%;
+  }
 }
