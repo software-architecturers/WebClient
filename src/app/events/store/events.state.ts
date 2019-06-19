@@ -1,7 +1,7 @@
 import {State, Action, StateContext} from '@ngxs/store';
 import {patch, append, updateItem, removeItem} from '@ngxs/store/operators';
 import Event from '../event.model';
-import {GetEvents, AddEvent, RemoveEvent, LikeEvent, GetEventById, SearchEvent} from './events.actions';
+import {GetEvents, AddEvent, UpdateEvent, RemoveEvent, LikeEvent, GetEventById, SearchEvent} from './events.actions';
 import {HttpService} from '../services/http.service';
 import {tap} from 'rxjs/operators';
 
@@ -58,6 +58,16 @@ export class EventsState {
   @Action(AddEvent)
   addEvent({setState}: StateContext<EventsStateModel>, {event}: AddEvent) {
     return this.httpService.addEvent({...event})
+      .pipe(
+        tap(data => setState(patch({
+          eventList: append([new Event({...data})])
+        })))
+      );
+  }
+
+  @Action(UpdateEvent)
+  updateEvent({setState}: StateContext<EventsStateModel>, {event}: UpdateEvent) {
+    return this.httpService.updateEvent(event.id, {...event})
       .pipe(
         tap(data => setState(patch({
           eventList: append([new Event({...data})])

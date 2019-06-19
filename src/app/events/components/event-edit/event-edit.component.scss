@@ -1,0 +1,13 @@
+.event-edit-page__title{
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: bold;
+}
+.event-edit-page__form{
+  margin-top: 20px;
+  .form-group{
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+  }
+}

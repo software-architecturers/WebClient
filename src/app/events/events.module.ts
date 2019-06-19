@@ -4,6 +4,7 @@ import { EventsPageComponent } from './components/events-page/events-page.compon
 import { EventPreviewComponent } from './components/event-preview/event-preview.component';
 import { EventComponent } from './components/event/event.component';
 import { EventCreateComponent } from './components/event-create/event-create.component';
+import { EventEditComponent } from './components/event-edit/event-edit.component';
 
 import { EventsRoutingModule } from './events-routing.module';
 import { NgxsModule } from '@ngxs/store';
@@ -30,7 +31,8 @@ import { HttpService } from './services/http.service';
     EventsPageComponent,
     EventPreviewComponent,
     EventComponent,
-    EventCreateComponent
+    EventCreateComponent,
+    EventEditComponent
   ]
 })
 export class EventsModule { }

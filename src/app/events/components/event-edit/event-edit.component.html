@@ -1,0 +1,32 @@
+<div class="columns event-edit-page">
+  <div class="column">
+
+    <h2 class="event-edit-page__title">Edit your event!</h2>
+
+    <form class="event-edit-page__form" [formGroup]="eventEditForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="event-edit__title">Change title:</label>
+        <input id="event-edit__title" class="event-edit__title" formControlName="title" name="title">
+      </div>
+
+      <div class="form-group">
+        <label for="event-edit__description">Change description:</label>
+        <textarea id="event-edit__description" class="event-edit__description" formControlName="description" name="text" cols="30" rows="5"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="event-edit__image">Change image:</label>
+        <input id="event-edit__image" class="event-edit__image" formControlName="images" type="file" accept="image/*">
+      </div>
+
+      <p>
+        Form Status: {{ eventEditForm.status }}
+      </p>
+
+      <button class="edit-post__submit button is-primary" [disabled]="!eventEditForm.valid">Update</button>
+
+    </form>
+
+  </div>
+</div>
