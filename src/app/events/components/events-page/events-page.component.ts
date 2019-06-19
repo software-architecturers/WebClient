@@ -39,7 +39,9 @@ export class EventsPageComponent implements OnDestroy, AfterViewInit {
         map(event => event.target.value),
         debounceTime(400),
         distinctUntilChanged(),
-        switchMap(search => this.store.dispatch(new SearchEvent(search)))
+        switchMap(search => {
+          return search ? this.store.dispatch(new SearchEvent(search)) : this.store.dispatch(new GetEvents());
+        })
       ).subscribe()
     );
   }
