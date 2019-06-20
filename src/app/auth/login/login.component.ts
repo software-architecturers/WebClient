@@ -9,6 +9,8 @@ import LoginModel from '../models/login.model';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Store } from '@ngxs/store';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   selector: 'app-login',
@@ -20,9 +22,10 @@ export class LoginComponent implements OnInit {
   externalProviders$: Observable<ExternalProviderModel[]>;
 
   constructor(
+    userService: UserService,
     private fb: FormBuilder,
     private authService: AuthService,
-    private userService: UserService,
+    private store: Store,
     private sanitizer: DomSanitizer,
     private location: Location
   ) {
@@ -48,7 +51,8 @@ export class LoginComponent implements OnInit {
       login: this.loginForm.get('username').value,
       password: this.loginForm.get('password').value
     };
-    this.authService.login(value);
+    this.authService.login(value)
+    .subscribe(() => this.store.dispatch(new Navigate(['/'])));
   }
 
   getProviderUrl(provider: ExternalProviderModel) {

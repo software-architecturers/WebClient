@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { UserManager } from 'oidc-client';
 import { interval, Observable } from 'rxjs';
-import { exhaustMap, map, switchMap } from 'rxjs/operators';
+import { exhaustMap, map, switchMap, filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import LoginModel from '../models/login.model';
 import { Login, Logout } from '../store/auth.actions';
@@ -26,11 +26,14 @@ export class AuthService {
   });
 
 
-  constructor(private store: Store,
+  constructor(
+    private store: Store,
     private userService: UserService,
-    private jwt: JwtHelperService) {
+    private jwt: JwtHelperService
+  ) {
     interval(60_000).pipe(
       switchMap(() => this.store.select(AuthState.token)),
+      filter(token => !!token),
       exhaustMap(token => this.userService.refreshToken({ token }))
     ).subscribe(({ token }) => this.store.dispatch(new Login(token)));
   }
@@ -53,7 +56,7 @@ export class AuthService {
 
   isLoggedIn(): Observable<boolean> {
     return this.store.select(AuthState.token).pipe(
-      map(token => !!token)
+      map(token => !!token && !this.jwt.isTokenExpired(token))
     );
   }
 
