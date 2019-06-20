@@ -23,7 +23,7 @@
   <div id="external" class="field">
     <div *ngIf="externalProviders$ | async as externalProviders; else noProviders">
       <div class="control" *ngFor="let provider of externalProviders">
-        {{provider.displayName}}
+        <a [href]="getProviderUrl(provider)">{{provider.displayName}}</a>
       </div>
     </div>
     <ng-template #noProviders>
