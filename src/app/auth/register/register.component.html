@@ -1,26 +1,36 @@
 <form [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit()">
-  <label>
-    Username:
-    <input type="text" formControlName="name">
+  <div class="field">
+    <div class="control">
+      <label class="label">Username:</label>
+      <input class="input" type="text" formControlName="name" autocomplete="username">
+    </div>
+  </div>
+  <label class="field">
+    <label class="control">
+      <label class="label">Email:</label>
+      <input class="input" type="email" formControlName="email" autocomplete="email">
+    </label>
   </label>
-  <label>
-    Email:
-    <input type="email" formControlName="email">
-  </label>
-  <label>
-    Password:
-    <input type="password" formControlName="password">
-  </label>
-  <label>
-    Confirm password:
-    <input type="password"
-    formControlName="confirmPassword">
-  </label>
-  <button type="submit" [disabled]="!registerForm.valid">Register</button>
+  <div class="field">
+    <div class="control">
+      <label class="label">Password:</label>
+      <input class="input" type="password" formControlName="password" autocomplete="new-password">
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Confirm pass</label>
+    <div class="control">
+      <input class="input" type="password" formControlName="confirmPassword" autocomplete="new-password">
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <button class="button is-link" type="submit" [disabled]="!registerForm.valid">Register</button>
+    </div>
+  </div>
+  <div *ngIf="isDev">
+    <p>{{registerForm.status}}</p>
+    <p>{{registerForm.value | json}}</p>
+    <p>{{registerForm.errors | json}}</p>
+  </div>
 </form>
-
-<div *ngIf="isDev">
-  <p>{{registerForm.status}}</p>
-  <p>{{registerForm.value | json}}</p>
-  <p>{{registerForm.errors | json}}</p>
-</div>

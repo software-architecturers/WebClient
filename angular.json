@@ -29,7 +29,6 @@
               "src/dist/oidc-client.min.js"
             ],
             "styles": [
-              "node_modules/bulma/css/bulma.min.css",
               "src/styles.scss"
             ],
             "scripts": [],

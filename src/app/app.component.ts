@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Store } from '@ngxs/store';
 import { Subscription } from 'rxjs';
 import UserModel from './auth/models/user.model';
+import { AuthState } from './auth/store/auth.store';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isLoggedIn$ = this.auth.isLoggedIn();
 
-  authServerUrl = environment.oidcClientConfig.authority;
   currentUser: UserModel;
 
   private subs: Subscription[] = [];
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private store: Store) {
     this.subs.push(
-      this.store.select(store => store.auth.currentUser).subscribe(cu => {
+      this.store.select(AuthState.currentUser).subscribe(cu => {
         this.currentUser = cu;
       }));
   }
@@ -40,9 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subs.forEach(sub => sub.unsubscribe());
   }
 
-  login() {
-    this.auth.startAuthentication();
-  }
 
   logout() {
     this.logoutModalActive = false;

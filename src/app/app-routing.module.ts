@@ -19,6 +19,11 @@ const routes: Routes = [
   { path: 'u/:id', component: UserComponent },
   { path: 'auth-callback', component: AuthCallbackComponent },
   {
+    path: 'login',
+    loadChildren: './auth/login/login.module#LoginModule',
+    canLoad: [NotAuthGuard]
+  },
+  {
     path: 'register',
     loadChildren: './auth/register/register.module#RegisterModule',
     canLoad: [NotAuthGuard]

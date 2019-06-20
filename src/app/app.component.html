@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-<nav class="navbar is-primary" role="navigation" aria-label="navigation">
+<nav class="navbar is-white" role="navigation" aria-label="navigation">
   <div class="navbar-brand">
     <!-- navbar items, navbar burger... -->
     <a (click)="navbarBurgerActive = !navbarBurgerActive" role="button" class="navbar-burger"
@@ -18,7 +18,7 @@
     <div class="navbar-end">
       <ng-container *ngIf="!(isLoggedIn$ | async); else elseBlock">
         <div class="navbar-item buttons">
-          <a class="is-primary button" (click)="login()">Login</a>
+          <a class="is-primary button" routerLink="/login">Login</a>
           <a class="is-light button" routerLink="/register">Register</a>
         </div>
       </ng-container>
@@ -29,7 +29,7 @@
           <a class="navbar-link is-hidden-touch"></a>
           <a (click)="extraMobileVisible = !extraMobileVisible" class="navbar-link is-hidden-desktop">Extra</a>
           <div class="navbar-dropdown is-right" [class.is-hidden-touch]="!extraMobileVisible">
-            <a class="navbar-item" (click)="logoutModalActive = true" >Logout</a>
+            <a class="navbar-item" (click)="logoutModalActive = true">Logout</a>
           </div>
         </div>
       </ng-template>
