@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { UserManager } from 'oidc-client';
-import { interval, Observable } from 'rxjs';
-import { exhaustMap, map, switchMap, filter } from 'rxjs/operators';
+import { ConnectableObservable, interval, Observable, of } from 'rxjs';
+import { catchError, exhaustMap, map, publishReplay, refCount, repeatWhen, switchMap, takeWhile } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import LoginModel from '../models/login.model';
 import { Login, Logout } from '../store/auth.actions';
 import { AuthState } from '../store/auth.store';
 import { UserService } from './user.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +26,8 @@ export class AuthService {
 
   });
 
+  @Select(AuthState.token)
+  token$: Observable<string>;
 
   constructor(
     private store: Store,
@@ -32,10 +35,19 @@ export class AuthService {
     private jwt: JwtHelperService
   ) {
     interval(60_000).pipe(
-      switchMap(() => this.store.select(AuthState.token)),
-      filter(token => !!token),
-      exhaustMap(token => this.userService.refreshToken({ token }))
-    ).subscribe(({ token }) => this.store.dispatch(new Login(token)));
+      switchMap(() => this.token$),
+      takeWhile(t => !!t),
+      repeatWhen(() => this.token$),
+      exhaustMap(t =>
+        this.userService.refreshToken({ token: t }).pipe(
+          catchError(() => of(null))
+        )
+      )
+    ).subscribe(v => {
+      if (v) {
+        this.store.dispatch(new Login(v.token));
+      }
+    });
   }
 
 
@@ -48,21 +60,23 @@ export class AuthService {
   }
 
   login(loginModel: LoginModel) {
-    return this.userService.login(loginModel).pipe(
-      switchMap(({ token }) => this.store.dispatch(new Login(token)))
+    const obs$ = this.userService.login(loginModel).pipe(
+      switchMap(({ token: t }) => this.store.dispatch(new Login(t))),
+      publishReplay(),
     );
+    (obs$ as ConnectableObservable<any>).connect();
+    return obs$.pipe(refCount());
   }
 
 
   isLoggedIn(): Observable<boolean> {
-    return this.store.select(AuthState.token).pipe(
-      map(token => !!token && !this.jwt.isTokenExpired(token))
+    return this.token$.pipe(
+      map(t => t && !this.jwt.isTokenExpired(t))
     );
   }
 
   getAuthorizationHeaderValue(): string | null {
-    const token = this.store.selectSnapshot(AuthState.token);
-    if (!token) { return null; }
-    return `Bearer ${this.store.selectSnapshot(AuthState.token)}`;
+    const tokenValue = this.store.selectSnapshot(AuthState.token);
+    return tokenValue ? `Bearer ${tokenValue}` : null;
   }
 }
