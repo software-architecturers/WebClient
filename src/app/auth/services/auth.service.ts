@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { UserManager } from 'oidc-client';
 import { ConnectableObservable, interval, Observable, of } from 'rxjs';
-import { catchError, exhaustMap, map, publishReplay, refCount, repeatWhen, switchMap, takeWhile } from 'rxjs/operators';
+import { catchError, exhaustMap, map, publishReplay, refCount, repeatWhen, retryWhen, switchMap, takeWhile } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import LoginModel from '../models/login.model';
 import { Login, Logout } from '../store/auth.actions';
@@ -37,7 +37,7 @@ export class AuthService {
     interval(60_000).pipe(
       switchMap(() => this.token$),
       takeWhile(t => !!t),
-      repeatWhen(() => this.token$),
+      retryWhen(() => this.token$),
       exhaustMap(t =>
         this.userService.refreshToken({ token: t }).pipe(
           catchError(() => of(null))

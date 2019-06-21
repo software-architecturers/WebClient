@@ -24,7 +24,7 @@ export class EventCreateComponent {
 
   onSubmit() {
     const event = this.eventCreateForm.value;
-    event.images = ['https://www.joomlack.fr/images/demos/demo2/on-top-of-earth.jpg'];
+    // event.images = ['https://www.joomlack.fr/images/demos/demo2/on-top-of-earth.jpg'];
     this.store.dispatch(new AddEvent(event));
   }
 }

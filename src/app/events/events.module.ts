@@ -21,8 +21,7 @@ import { HttpService } from './services/http.service';
     CommonModule,
     NgxsModule.forFeature([EventsState]),
     EventsRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    ReactiveFormsModule
   ],
   providers: [
     HttpService
